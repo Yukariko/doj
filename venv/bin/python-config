@@ -1,4 +1,4 @@
-#!/home/kangmin/projects/doj/venv/bin/python
+#!/home/yukariko/project/doj/venv/bin/python
 
 import sys
 import getopt
