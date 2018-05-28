@@ -1,4 +1,4 @@
 __pycache__/*
 venv/*
 *.swp
-
+migrations/__pycache__/*
