@@ -1,5 +1,4 @@
 __pycache__/*
-venv/*
 *.swp
 migrations/__pycache__/*
 app/config.py
