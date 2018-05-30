@@ -2,5 +2,5 @@ __pycache__/*
 app/__pycache__/*
 *.swp
 migrations/__pycache__/*
+migrations/version/__pycache__/*
 venv/*
-config.py
