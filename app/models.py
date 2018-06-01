@@ -26,8 +26,6 @@ class User(UserMixin, db.Model):
                     backref = db.backref('followers', lazy = 'dynamic'),
                     lazy = 'dynamic'
                   )
-    
-
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
