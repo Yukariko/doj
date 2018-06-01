@@ -7,3 +7,4 @@ venv/*
 .env
 .vscode/*
 app/auth/__pycache__/*
+app/main/__pycache__/*
