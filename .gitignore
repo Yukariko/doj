@@ -6,3 +6,4 @@ migrations/version/__pycache__/*
 venv/*
 .env
 .vscode/*
+app/auth/__pycache__/*
