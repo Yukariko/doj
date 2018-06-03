@@ -6,6 +6,7 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
+from elasticsearch import Elasticsearch
 from config import Config
 
 db = SQLAlchemy()
@@ -19,6 +20,9 @@ moment = Moment()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
+        if app.config['ELASTICSEARCH_URL'] else None
+    
 
     db.init_app(app)
     migrate.init_app(app, db)

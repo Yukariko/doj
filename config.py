@@ -9,3 +9,4 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'mysql+pymysql://id:pw@localhost/doj?charset=utf8' 
     SQLALCHEMY_TRACK_MODIFICATIONS = False;
     POSTS_PER_PAGE = 3
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
