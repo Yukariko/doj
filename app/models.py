@@ -57,6 +57,11 @@ class SearchableMixin(object):
 db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
 db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 class User(UserMixin, db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     username    = db.Column(db.String(64), index=True, unique=True)
@@ -116,7 +121,45 @@ class Post(SearchableMixin, db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
+# 문제는 공개, 비공개, 일부공개등 다양한 상태가 있을 예정
+class Problem(SearchableMixin, db.Model):
+    __searchable__  = ['title']
+    id              = db.Column(db.Integer, primary_key=True)
+    title           = db.Column(db.String(200))
+    body            = db.Column(db.Text)
+    user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
+    time_limit      = db.Column(db.Integer)
+    memory_limit    = db.Column(db.Integer)
 
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+class ProblemContent(db.Model):
+    id              = db.Column(db.Integer, primary_key=True)
+    problem_id      = db.Column(db.Integer, db.ForeignKey('problem.id'))
+    input           = db.Column(db.Text)
+    output          = db.Column(db.Text)
+
+class Language(db.Model):
+    id              = db.Column(db.Integer, primary_key=True)
+    name            = db.Column(db.String(30))
+
+class Result(db.Model):
+    id              = db.Column(db.Integer, primary_key=True)
+    name            = db.Column(db.String(30))
+
+class Code(db.Model):
+    id              = db.Column(db.Integer, primary_key=True)
+    problem_id      = db.Column(db.Integer, db.ForeignKey('problem.id'))
+    user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
+    language_id     = db.Column(db.Integer, db.ForeignKey('language.id'))
+    byte            = db.Column(db.Integer)
+    accessable      = db.Column(db.Integer)
+
+class Submit(db.Model):
+    id              = db.Column(db.Integer, primary_key=True)
+    problem_id      = db.Column(db.Integer, db.ForeignKey('problem.id'))
+    user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
+    code_id         = db.Column(db.Integer, db.ForeignKey('code.id'))
+    language_id     = db.Column(db.Integer, db.ForeignKey('language.id'))
+    result_id       = db.Column(db.Integer, db.ForeignKey('result.id'))
+    spend_time      = db.Column(db.Integer)
+    spend_memory    = db.Column(db.Integer)
+    timestamp       = db.Column(db.DateTime, default=datetime.utcnow)
