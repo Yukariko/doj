@@ -150,6 +150,7 @@ class Code(db.Model):
     problem_id      = db.Column(db.Integer, db.ForeignKey('problem.id'))
     user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
     language_id     = db.Column(db.Integer, db.ForeignKey('language.id'))
+    code_path       = db.Column(db.String(255))
     byte            = db.Column(db.Integer)
     accessable      = db.Column(db.Integer)
 
