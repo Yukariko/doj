@@ -70,6 +70,7 @@ class User(UserMixin, db.Model):
     about_me    = db.Column(db.String(140))
     last_seen   = db.Column(db.DateTime, default=datetime.utcnow)
     posts       = db.relationship('Post', backref='author', lazy='dynamic')
+    problems    = db.relationship('Problem', backref='author', lazy='dynamic')
     followed    = db.relationship(
                     'User',
                     secondary = followers,
@@ -140,27 +141,21 @@ class ProblemContent(db.Model):
 class Language(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
     name            = db.Column(db.String(30))
+    compile_command = db.Column(db.String(200))
 
 class Result(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
     name            = db.Column(db.String(30))
 
-class Code(db.Model):
-    id              = db.Column(db.Integer, primary_key=True)
-    problem_id      = db.Column(db.Integer, db.ForeignKey('problem.id'))
-    user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
-    language_id     = db.Column(db.Integer, db.ForeignKey('language.id'))
-    code_path       = db.Column(db.String(255))
-    byte            = db.Column(db.Integer)
-    accessable      = db.Column(db.Integer)
-
 class Submit(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
     problem_id      = db.Column(db.Integer, db.ForeignKey('problem.id'))
     user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
-    code_id         = db.Column(db.Integer, db.ForeignKey('code.id'))
     language_id     = db.Column(db.Integer, db.ForeignKey('language.id'))
     result_id       = db.Column(db.Integer, db.ForeignKey('result.id'))
     spend_time      = db.Column(db.Integer)
     spend_memory    = db.Column(db.Integer)
     timestamp       = db.Column(db.DateTime, default=datetime.utcnow)
+    code_path       = db.Column(db.String(255))
+    byte            = db.Column(db.Integer)
+    accessable      = db.Column(db.Integer)
