@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<ul>
+{% for submit in submits %}
+    <li>{{ submit.submitor.username }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

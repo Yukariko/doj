@@ -71,6 +71,7 @@ class User(UserMixin, db.Model):
     last_seen   = db.Column(db.DateTime, default=datetime.utcnow)
     posts       = db.relationship('Post', backref='author', lazy='dynamic')
     problems    = db.relationship('Problem', backref='author', lazy='dynamic')
+    submits     = db.relationship('Submit', backref='submitor', lazy='dynamic')
     followed    = db.relationship(
                     'User',
                     secondary = followers,
@@ -142,6 +143,11 @@ class Language(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
     name            = db.Column(db.String(30))
     compile_command = db.Column(db.String(200))
+
+def select_list():
+    languages = Language.query.all()
+    return [('1', 'C++')]
+    return [ (str(language.id), language.name) for language in Languages]
 
 class Result(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
