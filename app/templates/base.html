@@ -15,6 +15,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('problem.problem_list') }}">Problem</a></li>
                     <li><a href="{{ url_for('main.explore') }}">Explore</a></li>
                 </ul>
                 {% if g.search_form %}
@@ -36,7 +37,8 @@
                 </ul>
             </div>
         </div>
-	</nav>
+    </nav>
+    {% block sub_navbar %}{% endblock %}
 {% endblock %}
 
 {% block content %}

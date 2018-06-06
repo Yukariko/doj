@@ -1,0 +1,9 @@
+{% extends "problem/base.html" %}
+
+{% block app_content %}
+<h1>{{ problem.title }}</h1>
+<p>{{ problem.time_limit }}(s)</p>
+<p>{{ problem.memory_limit }}(MB)</p>
+{{ problem.body }}
+{% endblock %}
+
