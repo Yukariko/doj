@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
-from flask_login import current_user, login_required
+from flask_security import current_user, login_required
 from app import db
 from app.main.forms import EditProfileForm, PostForm, SearchForm
 from app.models import User, Post
@@ -69,14 +69,14 @@ def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         flash('user {} not found.'.format(username))
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     if user == current_user:
         flash('You cannot follow yourself!')
-        return redirect(url_for('user', username=username))
+        return redirect(url_for('main.user', username=username))
     current_user.follow(user)
     db.session.commit()
     flash('You are following {}!'.format(username))
-    return redirect(url_for('user', username=username))
+    return redirect(url_for('main.user', username=username))
 
 @bp.route('/unfollow/<username>')
 @login_required
@@ -84,14 +84,14 @@ def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         flash('User {} not found.'.format(username))
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     if user == current_user:
         flash('You cannot unfollow yourself!')
-        return redirect(url_for('user', username=username))
+        return redirect(url_for('main.user', username=username))
     current_user.unfollow(user)
     db.session.commit()
     flash('You are not following {}.'.format(username))
-    return redirect(url_for('user', username=username))
+    return redirect(url_for('main.user', username=username))
 
 @bp.route('/explore')
 @login_required

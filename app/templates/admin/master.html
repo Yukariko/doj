@@ -1,6 +1,3 @@
-{% if not current_user.has_role('superuser') %}
-{% extends 'admin/404.html' %}    
-{% else %}
 {% extends 'base.html' %}
 
 {% block sub_navbar %}
@@ -9,9 +6,6 @@
         <li><a href="/admin/user">User</a></li>
         <li><a href="/admin/language">Language</a></li>
         <li><a href="/admin/result">Result</a></li>
-        <li><a href="/admin/role">Role</a></li>
-        <li><a href="/admin/submit">Status</a></li>
     </ul>
 </div>
 {% endblock %}
-{% endif %}
