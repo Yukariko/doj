@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<ul>
-{% for submit in submits %}
-    <li>{{ submit.submitor.username }}</li>
-{% endfor %}
-</ul>
+    <table class="table table-hover">
+    {% for submit in submits %}
+        <tr>
+            <td>{{ submit.submitor.username }}</td>
+            <td>{{ submit.result.name }}</td>
+            <td>{{ submit.language.name }}</td>
+        </tr>>
+    {% endfor %}
+    </table>
 {% endblock %}

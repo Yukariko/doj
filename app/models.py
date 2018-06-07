@@ -143,15 +143,12 @@ class Language(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
     name            = db.Column(db.String(30))
     compile_command = db.Column(db.String(200))
-
-def select_list():
-    languages = Language.query.all()
-    return [('1', 'C++')]
-    return [ (str(language.id), language.name) for language in Languages]
+    submits         = db.relationship('Submit', backref='language', lazy='dynamic')
 
 class Result(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
     name            = db.Column(db.String(30))
+    submits         = db.relationship('Submit', backref='result', lazy='dynamic')
 
 class Submit(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
