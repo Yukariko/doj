@@ -167,6 +167,7 @@ class Problem(SearchableMixin, db.Model):
     user_id         = db.Column(db.Integer, db.ForeignKey('user.id'))
     time_limit      = db.Column(db.Integer)
     memory_limit    = db.Column(db.Integer)
+    submits         = db.relationship('Submit', backref='problem', lazy='dynamic')
 
 class ProblemContent(db.Model):
     id              = db.Column(db.Integer, primary_key=True)
@@ -194,6 +195,6 @@ class Submit(db.Model):
     spend_time      = db.Column(db.Integer)
     spend_memory    = db.Column(db.Integer)
     timestamp       = db.Column(db.DateTime, default=datetime.utcnow)
-    code_path       = db.Column(db.String(255))
+    code            = db.Column(db.Text)
     byte            = db.Column(db.Integer)
     accessable      = db.Column(db.Integer)

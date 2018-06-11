@@ -5,8 +5,17 @@
     {% for submit in submits %}
         <tr>
             <td>{{ submit.submitor.username }}</td>
+            <td>
+                <a href="{{ url_for('problem.problem', problem_id = submit.problem_id) }}">
+                    {{ submit.problem.title }}
+                </a>
+            </td>
             <td>{{ submit.result.name }}</td>
-            <td>{{ submit.language.name }}</td>
+            <td>
+                <a href="{{ url_for('problem.code', submit_id = submit.id) }}">
+                    {{ submit.language.name }}
+                </a>
+            </td>
         </tr>
     {% endfor %}
     </table>

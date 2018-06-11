@@ -1,3 +1,5 @@
+# -- coding: utf-8 --
+import requests
 from flask import render_template, flash, redirect, url_for, request, g, \
     jsonify, current_app
 from flask_login import current_user, login_required
@@ -18,7 +20,7 @@ def problem_list():
 
 @bp.route('/status', methods=['GET'])
 def status():
-    submits = Submit.query.all()
+    submits = Submit.query.order_by(Submit.id.desc()).all()
     return render_template('problem/status.html', submits=submits)
 
 
@@ -32,14 +34,26 @@ def submit(problem_id):
             submitor = current_user,
             result_id = Result.query.filter_by(name="Waiting").first().id,
             language_id = form.language.data.id,
+            code = form.code.data
         )
         db.session.add(submit)
         db.session.commit()
+        
+        requests.post('http://192.168.50.11:34568/?submit='+str(submit.id),
+            stream=False,
+            headers={'Connection': 'close', 'Content-Type': 'text/html; charset=utf-8'},
+            data=form.code.data.encode('utf-8'))
+
         flash('Your submit is now live!')
         return redirect(url_for('problem.status'))
     problem = Problem.query.get(int(problem_id))
     return render_template('problem/submit.html', problem=problem, form=form)
 
+@bp.route('/code/<int:submit_id>', methods=['GET', 'POST'])
+@login_required
+def code(submit_id):
+    submit = Submit.query.get(int(submit_id))
+    return render_template('problem/code.html', submit=submit)
 
 @bp.route('/create', methods=['GET', 'POST'])
 @login_required
